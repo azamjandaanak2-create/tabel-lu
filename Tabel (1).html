@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jadwal Pelajaran 8.7</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 24px 16px;
+    font-family: Arial, sans-serif;
+    color: #183153;
+    background: linear-gradient(
+        145deg,
+        #87ceeb,
+        #dbeafe,
+        #f5f3ff
+    );
+    background-attachment: fixed;
+}
+
+header {
+    text-align: center;
+    margin: 15px 0 30px;
+}
+
+header h1 {
+    font-size: clamp(28px, 7vw, 42px);
+    margin: 0;
+    font-weight: 800;
+}
+
+header p {
+    color: #52647a;
+    font-size: 14px;
+}
+
+/* Tombol pilihan hari */
+.days {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 600px;
+    margin: 0 auto 28px;
+}
+
+.day-btn {
+    padding: 14px 5px;
+    border: 1px solid #ffffffb0;
+    border-radius: 14px;
+    background: #ffffff80;
+    color: #1e3a8a;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.day-btn.active {
+    background: linear-gradient(135deg, #2563eb, #6366f1);
+    color: white;
+    box-shadow: 0 5px 14px #2563eb35;
+    transform: translateY(-2px);
+}
+
+.day-btn:active {
+    transform: scale(0.96);
+}
+
+/* Bagian jadwal */
+.schedule {
+    max-width: 600px;
+    margin: auto;
+}
+
+.schedule h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Kartu mapel */
+.subjects {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.subject {
+    position: relative;
+    min-height: 110px;
+    padding: 20px 12px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    background: linear-gradient(
+        145deg,
+        #ffffffed,
+        #bfdbfecc
+    );
+    border: 1px solid #ffffffd0;
+    box-shadow: 0 5px 15px #1e40af12;
+    animation: muncul 0.3s ease;
+}
+
+/* Variasi warna kartu */
+.subject:nth-child(3n + 1) {
+    background: linear-gradient(145deg, #ffffff, #d1fae5);
+}
+
+.subject:nth-child(3n + 2) {
+    background: linear-gradient(145deg, #ffffff, #dbeafe);
+}
+
+.subject:nth-child(3n) {
+    background: linear-gradient(145deg, #ffffff, #ede9fe);
+}
+
+/* Animasi */
+@keyframes muncul {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-bottom: 12px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+@media (max-width: 360px) {
+    body {
+        padding: 18px 10px;
+    }
+
+    .subjects {
+        grid-template-columns: 1fr;
+    }
+
+    .subject {
+        min-height: 85px;
+    }
+
+    .day-btn {
+        font-size: 13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Jadwal Pelajaran</h1>
+    <p>Kelas 8.7 · Tekan hari untuk melihat mapel</p>
+</header>
+
+<nav class="days">
+    <button class="day-btn active"
+        onclick="pilihHari('Senin', this)">Senin</button>
+
+    <button class="day-btn"
+        onclick="pilihHari('Selasa', this)">Selasa</button>
+
+    <button class="day-btn"
+        onclick="pilihHari('Rabu', this)">Rabu</button>
+
+    <button class="day-btn"
+        onclick="pilihHari('Kamis', this)">Kamis</button>
+
+    <button class="day-btn"
+        onclick="pilihHari('Jumat', this)">Jumat</button>
+
+    <button class="day-btn"
+        onclick="pilihHari('Sabtu', this)">Sabtu</button>
+</nav>
+
+<main class="schedule">
+    <h2 id="judulHari">Pelajaran Hari Senin</h2>
+    <div class="subjects" id="daftarMapel"></div>
+</main>
+
+<footer>
+    Jadwal Pelajaran Kelas 8.7
+</footer>
+
+<script>
+const jadwal = {
+    Senin: [
+        "Agama",
+        "Bahasa Inggris",
+        "Matematika",
+        "IPA"
+    ],
+
+    Selasa: [
+        "Bahasa Indonesia",
+        "TIK / Informatika",
+        "PJOK",
+        "IPS"
+    ],
+
+    Rabu: [
+        "IPS",
+        "IPA",
+        "Agama Islam",
+        "Bahasa Inggris"
+    ],
+
+    Kamis: [
+        "PPKN",
+        "IPA",
+        "Matematika"
+    ],
+
+    Jumat: [
+        "Bahasa Indonesia",
+        "Bahasa Inggris",
+        "Desain Grafis"
+    ],
+
+    Sabtu: [
+        "Matematika",
+        "Seni Rupa / Prakarya"
+    ]
+};
+
+function pilihHari(hari, tombol) {
+    document.getElementById("judulHari").textContent =
+        "Pelajaran Hari " + hari;
+
+    const daftar = document.getElementById("daftarMapel");
+    daftar.innerHTML = "";
+
+    jadwal[hari].forEach((mapel, index) => {
+        const kartu = document.createElement("div");
+        kartu.className = "subject";
+        kartu.style.animationDelay = (index * 0.06) + "s";
+        kartu.textContent = mapel;
+        daftar.appendChild(kartu);
+    });
+
+    document.querySelectorAll(".day-btn").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    tombol.classList.add("active");
+}
+
+// Tampilkan Senin saat pertama dibuka
+pilihHari("Senin", document.querySelector(".day-btn"));
+</script>
+
+</body>
+</html>
